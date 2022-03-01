@@ -44,12 +44,13 @@
         }
 
         this.speedKeyBroad = function (key) {
-            if (key.code == 'NumpadAdd') {
+            console.log(key);
+            if (key.key == 'ArrowUp') {
                 if (speedX > 0) speedX += baseSpeedX;
                 else speedX -= baseSpeedX;
                 if (speedY > 0) speedY += baseSpeedY;
                 else speedY -= baseSpeedY;
-            } else if (key.code == 'NumpadSubtract') {
+            } else if (key.key == 'ArrowDown') {
                 if (speedX > 0) speedX -= baseSpeedX;
                 else speedX += baseSpeedX;
                 if (speedY > 0) speedY -= baseSpeedY;
@@ -59,4 +60,4 @@
     }
     let ball = new Ball();
     setInterval(ball.draw, 10);
-    document.addEventListener('keypress', ball.speedKeyBroad);
+    document.addEventListener('keydown', ball.speedKeyBroad);
