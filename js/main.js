@@ -21,8 +21,10 @@
        let canvas = document.getElementById('canvas');
        let ctx = canvas.getContext('2d');
        let ballRadius = 10;
-       let x = field.getWidth() - ballRadius;
-       let y = field.getHeight() - ballRadius;
+       let tempWidth = field.getWidth();
+       let tempHeight = field.getHeight();
+       let x = tempWidth - ballRadius;
+       let y = tempHeight - ballRadius;
        let baseSpeedX = Math.random();
        let baseSpeedY = Math.sqrt(1 - Math.pow(baseSpeedX, 2));
        let speedX = baseSpeedX;
@@ -36,6 +38,18 @@
            ctx.closePath();
        }
 
+       function changeNotice() {
+           if (tempWidth != field.getWidth()) {
+               let tempX = x / tempWidth;
+               tempWidth = field.getWidth();
+               x = tempX * tempWidth;
+           }
+           if (tempHeight != field.getHeight()) {
+               let tempY = y / tempHeight;
+               tempHeight = field.getHeight();
+               y = tempY * tempHeight;
+           }
+       }
        this.draw = function() {
            ctx.clearRect(0, 0, canvas.width, canvas.height);
            if (x + speedX > canvas.width - ballRadius || x + speedX < ballRadius) {
@@ -44,6 +58,7 @@
            if (y + speedY > canvas.height - ballRadius || y + speedY < ballRadius) {
                speedY = -speedY;
            }
+           changeNotice();
            drawBall();
            x += speedX;
            y += speedY;
