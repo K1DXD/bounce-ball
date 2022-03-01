@@ -2,108 +2,16 @@
 <html>
 <head>
 <title>bouncing ball</title>
-<style>
-	*{
-    	margin: 0 0;
-        padding: 0;
-    }
-	canvas{
-        margin: 0 auto;
-        display: block;
-        background-color: black;
-    }	
-    h1{
-        margin: 20px auto;
-        text-align: center;
-    }
-    .button-gr{
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-    }
-    button{
-        margin: 0 15px;
-        background-color: blue;
-        color: white;
-        font-size: 25px;
-        padding: 2px 15px;
-        border-radius: 8px;
-        border: black solid 1px;
-    }
-    p{
-        width: 700px;
-        font-size: 20px;
-        display: block;
-        margin: 0 auto;
-        margin-bottom: 10px;
-    }
-</style>
+<link rel="stylesheet" href="css/main.css">
 </head>
 <body">
 <h1>Bounce Ball</h1>
     <p>Press NumpadAdd key for increase speed and NumpadSubtract key for decrease speed of the ball</p>
     <canvas id="canvas" width="700px" height="500px"></canvas>
     <div class="button-gr">
-        <button onclick="speedButton(1);"> + </button>
-        <button onclick="speedButton(0);"> - </button>
+        <button onclick="ball.speedButton(1);"> + </button>
+        <button onclick="ball.speedButton(0);"> - </button>
     </div>
-<script>
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-    var ballRadius = 10;
-	var x = canvas.width - ballRadius;
-    var y = canvas.height - ballRadius;
-    var baseSpeedX = Math.random();
-    var baseSpeedY = Math.sqrt(1 - Math.pow(baseSpeedX,2));
-    var speedX = baseSpeedX;
-    var speedY = baseSpeedY;
-    function drawBall(){
-        ctx.beginPath();
-        ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-        ctx.fillStyle = "red";
-        ctx.fill();
-        ctx.closePath();
-    }
-    function draw(){
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if(x + speedX > canvas.width-ballRadius|| x + speedX < ballRadius) {
-            speedX = -speedX;
-        }
-        if(y + speedY > canvas.height-ballRadius|| y + speedY < ballRadius) {
-            speedY = -speedY;
-        }
-        drawBall();
-        x += speedX;
-        y += speedY;
-    }
-    function speedButton(speed){
-        if(speed==1){
-            if(speedX>0) speedX += baseSpeedX;
-            else speedX -= baseSpeedX;
-            if(speedY>0) speedY += baseSpeedY;
-            else speedY -= baseSpeedY;
-        }else{
-            if(speedX>0) speedX -= baseSpeedX;
-            else speedX += baseSpeedX;
-            if(speedY>0) speedY -= baseSpeedY;
-            else speedY += baseSpeedY;
-        }
-    }
-    function speedKeyBroad(key){
-        if(key.code == 'NumpadAdd'){
-            if(speedX>0) speedX += baseSpeedX;
-            else speedX -= baseSpeedX;
-            if(speedY>0) speedY += baseSpeedY;
-            else speedY -= baseSpeedY;
-        }else if(key.code == 'NumpadSubtract'){
-            if(speedX>0) speedX -= baseSpeedX;
-            else speedX += baseSpeedX;
-            if(speedY>0) speedY -= baseSpeedY;
-            else speedY += baseSpeedY;
-        }
-    }
-    setInterval(draw,10);
-    document.addEventListener('keypress',speedKeyBroad);
-</script>
+<script src="js/main.js"></script>
 </body>
 </html>
