@@ -23,12 +23,18 @@
        let ballRadius = 10;
        let tempWidth = field.getWidth();
        let tempHeight = field.getHeight();
-       let x = tempWidth - ballRadius;
-       let y = tempHeight - ballRadius;
-       let baseSpeedX = Math.random();
-       let baseSpeedY = Math.sqrt(1 - Math.pow(baseSpeedX, 2));
+       let x = tempWidth / 2;
+       let y = tempHeight / 2;
+       let baseSpeedX = Math.random() * randomDirection(Math.random());
+       let baseSpeedY = Math.sqrt(1 - Math.pow(Math.abs(baseSpeedX), 2)) *
+           randomDirection(Math.random());
        let speedX = baseSpeedX;
        let speedY = baseSpeedY;
+
+       function randomDirection(x) {
+           if (x > 0.5) return 1
+           else return -1;
+       }
 
        function drawBall() {
            ctx.beginPath();
