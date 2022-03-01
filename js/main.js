@@ -44,7 +44,6 @@
         }
 
         this.speedKeyBroad = function (key) {
-            console.log(key);
             if (key.key == 'ArrowUp') {
                 if (speedX > 0) speedX += baseSpeedX;
                 else speedX -= baseSpeedX;
