@@ -142,22 +142,23 @@
         /**
          * 
          * @param {string} key for increase or decrease speed of the ball
-         * @returns nothing
          */
         function speedControl(key) {
-            if (key == 'increase') {
-                speedX += baseSpeedX;
-                speedY += baseSpeedY;
-            } else {
-                /**
-                 * when ball stop, cant decrease speed
-                 */
-                if (speedX == 0 || speedY == 0) {
-                    return;
-                } else {
-                    speedX -= baseSpeedX;
-                    speedY -= baseSpeedY;
-                }
+            switch(key){
+                case 'increase':
+                    speedX += baseSpeedX;
+                    speedY += baseSpeedY;
+                    break;
+                case 'decrease':
+                    /**
+                     * when the ball stop, cant decrease speed
+                     */
+                    if(speedX < 0.1 && speedX > -0.1 || speedY < 0.1 && speedY > -0.1) break;
+                    else{
+                        speedX -= baseSpeedX;
+                        speedY -= baseSpeedY;
+                        break;
+                    }
             }
         }
         /**
@@ -165,10 +166,13 @@
          * @param {string} key listen for key down event
          */
         this.keyReconize = function(key) {
-            if (key.key == 'ArrowUp') {
-                speedControl('increase');
-            } else if (key.key == 'ArrowDown') {
-                speedControl('decrease');
+            switch(key.key){
+                case 'ArrowUp':
+                    speedControl('increase');
+                    break;
+                case 'ArrowDown':
+                    speedControl('decrease');
+                    break;
             }
         }
     }
