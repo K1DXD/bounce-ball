@@ -37,8 +37,8 @@
         let baseSpeedX = Math.random() * randomDirection(Math.random());
         let baseSpeedY = Math.sqrt(1 - Math.pow(Math.abs(baseSpeedX), 2)) *
             randomDirection(Math.random());
-        let speedX = Math.abs(baseSpeedX);
-        let speedY = Math.abs(baseSpeedY);
+        let speedX = baseSpeedX;
+        let speedY = baseSpeedY;
 
         function randomDirection(x) {
             if (x > 0.5) return 1
@@ -69,9 +69,11 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             if (x + speedX > canvas.width - ballRadius || x + speedX < ballRadius) {
                 speedX = -speedX;
+                baseSpeedX = -baseSpeedX;
             }
             if (y + speedY > canvas.height - ballRadius || y + speedY < ballRadius) {
                 speedY = -speedY;
+                baseSpeedY = -baseSpeedY;
             }
             changeNotice();
             drawBall();
