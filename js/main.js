@@ -66,6 +66,7 @@
             }
         }
         this.draw = function() {
+            changeNotice();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             if (x + speedX > canvas.width - ballRadius || x + speedX < ballRadius) {
                 speedX = -speedX;
@@ -75,23 +76,29 @@
                 speedY = -speedY;
                 baseSpeedY = -baseSpeedY;
             }
-            changeNotice();
             drawBall();
             x += speedX;
             y += speedY;
         }
 
-        this.speedKeyPress = function(key) {
+        function speedControl(key) {
+            if (key == 'increase') {
+                speedX += baseSpeedX;
+                speedY += baseSpeedY;
+            } else {
+                if (speedX == 0 || speedY == 0) {
+                    return;
+                } else {
+                    speedX -= baseSpeedX;
+                    speedY -= baseSpeedY;
+                }
+            }
+        }
+        this.keyReconize = function(key) {
             if (key.key == 'ArrowUp') {
-                if (speedX > 0) speedX += baseSpeedX;
-                else speedX -= baseSpeedX;
-                if (speedY > 0) speedY += baseSpeedY;
-                else speedY -= baseSpeedY;
+                speedControl('increase');
             } else if (key.key == 'ArrowDown') {
-                if (speedX > 0) speedX -= baseSpeedX;
-                else speedX += baseSpeedX;
-                if (speedY > 0) speedY -= baseSpeedY;
-                else speedY += baseSpeedY;
+                speedControl('decrease');
             }
         }
     }
@@ -102,4 +109,4 @@
         field.setHeight();
         ball.draw();
     }, 10);
-    document.addEventListener('keydown', ball.speedKeyPress);
+    document.addEventListener('keydown', ball.keyReconize);
