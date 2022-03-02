@@ -69,13 +69,15 @@
 
         /**
          * @private
-         * @returns {number} from -1.5 to 1.5
+         * @returns {number} random number from -1.5 to 1.5
          */
         function randomDirection() {
             let x = (Math.random() > 0.5) ? 1 : -1;
             return (Math.random() + 0.5) * x;
         }
-
+        /**
+         * canvas code for draw a ball
+         */
         function drawBall() {
             ctx.beginPath();
             ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
@@ -153,7 +155,8 @@
                     /**
                      * when the ball stop, cant decrease speed
                      */
-                    if(speedX < 0.1 && speedX > -0.1 || speedY < 0.1 && speedY > -0.1) break;
+                    if(speedX < 0.1 && speedX > -0.1 || speedY < 0.1 && speedY > -0.1) 
+                    break;
                     else{
                         speedX -= baseSpeedX;
                         speedY -= baseSpeedY;
