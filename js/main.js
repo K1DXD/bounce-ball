@@ -1,48 +1,79 @@
     /** 
-     * Field function
+     * get and set brower width and height
      */
     function Field() {
         /**
-         * @private 
+         * window width and height
+         * @private @type {number} 
          */
         let width = window.innerWidth;
-        /**
-         * @private 
-         */
         let height = window.innerHeight;
-        this.getWidth = function() {
-            return width;
+        /**
+         * @returns {obj} width and height
+         */
+        this.getWidthAndHeight = function() {
+            return {
+                width:width,
+                height:height
+            };
         }
-        this.getHeight = function() {
-            return height;
-        }
-        this.setWidth = function() {
+        /**
+         * update width and height
+         * set width and height to canvas 
+         */
+        this.setWidthAndHeight = function() {
             width = window.innerWidth;
-            return canvas.width = width;
-        }
-        this.setHeight = function() {
             height = window.innerHeight;
-            return canvas.height = height;
+            canvas.width = width;
+            canvas.height = height;
         }
     }
-
+    /**
+     * draw the canvas field and the ball
+     */
     function Ball() {
+        /**
+         * canvas and ctx for draw function
+         * @private 
+         */
         let canvas = document.getElementById('canvas');
         let ctx = canvas.getContext('2d');
+        /**
+         * canvas width and height
+         * @private @type {number} 
+         */
+        let width = field.getWidthAndHeight().width;
+        let height = field.getWidthAndHeight().height;
+        /**
+         * coordinates of the ball
+         * @private @type {number} 
+         */
+        let x = width / 2;
+        let y = height / 2;
+        /**
+         * @private @const @type {number} 
+         */
         let ballRadius = 10;
-        let tempWidth = field.getWidth();
-        let tempHeight = field.getHeight();
-        let x = tempWidth / 2;
-        let y = tempHeight / 2;
-        let baseSpeedX = Math.random() * randomDirection(Math.random());
-        let baseSpeedY = Math.sqrt(1 - Math.pow(Math.abs(baseSpeedX), 2)) *
-            randomDirection(Math.random());
+        /**
+         * base speed of the ball and base direction
+         * @private @type {number}
+         */
+        let baseSpeedX = randomDirection();
+        let baseSpeedY = randomDirection();
+        /**
+         *  speed of the ball
+         *  @private @type {number}
+         */
         let speedX = baseSpeedX;
         let speedY = baseSpeedY;
 
-        function randomDirection(x) {
-            if (x > 0.5) return 1
-            else return -1;
+        /**
+         * @private
+         * @returns {number} from -1.5 to 1.5
+         */
+        function randomDirection() {
+            let x = (Math.random() > 0.5) ? 1 : -1;
+            return (Math.random() + 0.5) * x;
         }
 
         function drawBall() {
@@ -52,22 +83,47 @@
             ctx.fill();
             ctx.closePath();
         }
-
+        /**
+         * check browser resize
+         * update browser width and height
+         * update coordinate of the ball
+         * @private
+         */
         function changeNotice() {
-            if (tempWidth != field.getWidth()) {
-                let tempX = x / tempWidth;
-                tempWidth = field.getWidth();
-                x = tempX * tempWidth;
-            }
-            if (tempHeight != field.getHeight()) {
-                let tempY = y / tempHeight;
-                tempHeight = field.getHeight();
-                y = tempY * tempHeight;
+            /**
+             * check if browser resize
+             */
+            if (width != field.getWidthAndHeight().width||height != field.getWidthAndHeight().height) {
+                /**
+                 * @type {number} relative coordinate of the ball
+                 */
+                let tempY = y / height;
+                let tempX = x / width;
+                /**
+                 * update width and height to new value
+                 */
+                width = field.getWidthAndHeight().width;
+                height = field.getWidthAndHeight().height;
+                /**
+                 * update new coordinate of the ball
+                 */
+                x = tempX * width;
+                y = tempY * height;
             }
         }
+        /**
+         * delete old ball and draw new ball
+         * change ball direction when the ball touch the edge of browser
+         */
         this.draw = function() {
             changeNotice();
+            /**
+             * delete old ball
+             */
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            /**
+             * change ball direction
+             */
             if (x + speedX > canvas.width - ballRadius || x + speedX < ballRadius) {
                 speedX = -speedX;
                 baseSpeedX = -baseSpeedX;
@@ -77,15 +133,25 @@
                 baseSpeedY = -baseSpeedY;
             }
             drawBall();
+            /**
+             * new cordinate of the ball
+             */
             x += speedX;
             y += speedY;
         }
-
+        /**
+         * 
+         * @param {string} key for increase or decrease speed of the ball
+         * @returns nothing
+         */
         function speedControl(key) {
             if (key == 'increase') {
                 speedX += baseSpeedX;
                 speedY += baseSpeedY;
             } else {
+                /**
+                 * when ball stop, cant decrease speed
+                 */
                 if (speedX == 0 || speedY == 0) {
                     return;
                 } else {
@@ -94,6 +160,10 @@
                 }
             }
         }
+        /**
+         * reconize ArrowUp and ArrowDown key press and call speedControl() function
+         * @param {string} key listen for key down event
+         */
         this.keyReconize = function(key) {
             if (key.key == 'ArrowUp') {
                 speedControl('increase');
@@ -105,8 +175,7 @@
     let field = new Field();
     let ball = new Ball();
     setInterval(function() {
-        field.setWidth();
-        field.setHeight();
+        field.setWidthAndHeight();
         ball.draw();
     }, 10);
     document.addEventListener('keydown', ball.keyReconize);
