@@ -184,5 +184,5 @@
     setInterval(function() {
         field.setWidthAndHeight();
         ball.draw();
-    }, 10);
+    }, 4);
     document.addEventListener('keydown', ball.keyReconize);
