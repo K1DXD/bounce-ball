@@ -73,7 +73,7 @@
          */
         function randomDirection() {
             let x = (Math.random() > 0.5) ? 1 : -1;
-            return (Math.round(Math.random() * 10000) / 10000 + 0.5) * x;
+            return (Math.round(Math.random() * 100) / 100 + 0.5) * x;
         }
         /**
          * canvas code for draw a ball
